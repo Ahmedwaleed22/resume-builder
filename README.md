@@ -35,7 +35,7 @@ A modern web application that helps users create professional resumes with ease.
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/resume-builder.git
+git clone https://github.com/ahmedwaleed22/resume-builder.git
 ```
 
 2. Install dependencies
