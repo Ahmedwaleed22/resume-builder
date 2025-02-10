@@ -17,7 +17,7 @@ interface ResumePDFProps {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 32, // Increased padding
+    padding: '5%', // Use percentage instead of fixed padding
     fontFamily: 'Helvetica',
   },
   section: {
@@ -43,12 +43,13 @@ const styles = StyleSheet.create({
   contactInfo: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 24,
+    gap: 16,
     marginTop: 12,
   },
   contactItem: {
-    fontSize: 14, // Increased font size
+    fontSize: 12,
     color: '#4B5563',
+    minWidth: '45%', // Ensure items take up reasonable space
   },
   contactLabel: {
     fontWeight: 'medium',

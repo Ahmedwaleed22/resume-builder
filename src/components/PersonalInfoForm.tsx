@@ -96,10 +96,10 @@ export default function PersonalInfoForm({ onSubmit, onChange, defaultValues, ch
   // }, [completion, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Personal Details Section */}
       <div className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
               First Name
@@ -130,8 +130,8 @@ export default function PersonalInfoForm({ onSubmit, onChange, defaultValues, ch
         </div>
 
         {/* Professional Info Section */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div className="sm:col-span-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="col-span-1 sm:col-span-2">
             <label htmlFor="jobTitle" className="block text-sm font-medium text-gray-700">
               Job Title
             </label>
