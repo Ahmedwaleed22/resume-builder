@@ -11,43 +11,74 @@ export default function ResumePreview({ resumeData }: ResumePreviewProps) {
     <div className="bg-white shadow-lg rounded-lg p-8 max-w-[21cm] mx-auto">
       {/* Personal Info Section */}
       {personalInfo && (
-        <div className="mb-6">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+        <div className="mb-8">
+          <div className="text-left border-b pb-4">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
               {personalInfo.firstName} {personalInfo.lastName}
             </h1>
             {personalInfo.jobTitle && (
-              <p className="text-lg text-gray-700 mb-2">
+              <h2 className="text-2xl text-gray-800 mb-4">
                 {personalInfo.jobTitle}
-              </p>
+              </h2>
             )}
-            <div className="flex gap-3 mx-auto w-max mb-1">
-              <p className="text-gray-600 underline">
-                <a href={`tel:${personalInfo.phone}`}>{personalInfo.phone}</a>
-              </p>
-              <p className="text-gray-600 underline">
-                <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
-              </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-1 text-base">
+              {personalInfo.email && (
+                <p className="text-gray-700">
+                  <span className="font-medium">Email:</span> {personalInfo.email}
+                </p>
+              )}
+              {personalInfo.phone && (
+                <p className="text-gray-700">
+                  <span className="font-medium">Phone:</span> {personalInfo.phone}
+                </p>
+              )}
               {personalInfo.location && (
-                <p className="text-gray-600">{personalInfo.location}</p>
+                <p className="text-gray-700">
+                  <span className="font-medium">Location:</span> {personalInfo.location}
+                </p>
+              )}
+              {personalInfo.website && (
+                <p className="text-gray-700">
+                  <span className="font-medium">Website:</span> {personalInfo.website}
+                </p>
               )}
             </div>
-            {personalInfo.website && (
-              <p className="text-gray-600">
-                <a href={personalInfo.website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">
-                  {personalInfo.website}
-                </a>
-              </p>
-            )}
           </div>
           {personalInfo.summary && (
-            <div className="mt-6 text-left">
-              <p className="text-gray-700 whitespace-pre-wrap">{personalInfo.summary}</p>
+            <div className="mt-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3 border-b pb-2">
+                Professional Summary
+              </h2>
+              <p className="text-gray-700 leading-relaxed text-base">{personalInfo.summary}</p>
             </div>
           )}
         </div>
       )}
 
+      {/* Experience Section - Update the styling */}
+      {experience && experience.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">
+            Experience
+          </h2>
+          {experience.map((exp, index) => (
+            <div key={index} className="mb-6">
+              <div className="flex justify-between items-start mb-1">
+                <h3 className="text-lg font-bold text-gray-800">{exp.company}</h3>
+                <span className="text-base text-gray-600">
+                  {exp.startDate} - {exp.endDate}
+                </span>
+              </div>
+              <p className="text-base font-semibold text-gray-700 mb-2">{exp.position}</p>
+              {exp.description && (
+                <p className="text-base text-gray-700 leading-relaxed">{exp.description}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Rest of the sections remain the same */}
       {/* Education Section */}
       {education && education.length > 0 && (
         <div className="mb-6">
