@@ -4,6 +4,7 @@ import OpenAI from 'openai';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "http://localhost:11434/v1"
 });
 
 export const runtime = 'edge';
@@ -14,11 +15,11 @@ export async function POST(request: Request) {
     const personalInfo = resumeData.personalInfo;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'llama3.2:latest',
       messages: [
         {
           role: 'system',
-          content: 'You are a professional resume writer. Create concise and impactful professional summaries.'
+          content: 'You are a professional resume writer. Create concise and impactful professional summaries, Don\'t write anything like "Here is a professional summary" just start writing the summary itself without anything else'
         },
         // In the messages array
           {
@@ -41,6 +42,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ text: generatedText });
     
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to generate text' }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
