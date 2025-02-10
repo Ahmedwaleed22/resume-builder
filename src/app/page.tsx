@@ -194,7 +194,40 @@ export default function Home() {
                 >
                   <div className="flex justify-end space-x-4">
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={async () => {
+                        try {
+                          const response = await fetch('/api/generate-pdf', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(resumeData),
+                          });
+
+                          if (!response.ok) {
+                            throw new Error('Failed to generate PDF');
+                          }
+
+                          // Create a blob from the PDF stream
+                          const blob = await response.blob();
+                          // Create an object URL for the blob
+                          const url = window.URL.createObjectURL(blob);
+                          // Create a link element
+                          const link = document.createElement('a');
+                          link.href = url;
+                          link.download = 'resume.pdf';
+                          // Append to the document and click
+                          document.body.appendChild(link);
+                          link.click();
+                          // Clean up
+                          document.body.removeChild(link);
+                          window.URL.revokeObjectURL(url);
+                        } catch (error) {
+                          console.error('Error generating PDF:', error);
+                          alert('Failed to generate PDF. Please try again.');
+                        }
+                      }}
                       className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Export Resume
