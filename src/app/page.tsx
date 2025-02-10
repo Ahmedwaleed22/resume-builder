@@ -1,101 +1,217 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import PersonalInfoForm from '@/components/PersonalInfoForm';
+import EducationForm from '@/components/EducationForm';
+import ExperienceForm from '@/components/ExperienceForm';
+import CustomSectionForm from '@/components/CustomSectionForm';
+import { Resume, PersonalInfo, Education, Experience, CustomSection } from '@/types/resume';
+import ResumePreview from '@/components/ResumePreview';
+import { ArrowRightIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [step, setStep] = useState(1);
+  const [resumeData, setResumeData] = useState<Partial<Resume>>({
+    personalInfo: undefined,
+    education: undefined,
+    experience: undefined,
+    customSections: undefined,
+    skills: [],
+    projects: []
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handlePersonalInfoSubmit = (data: PersonalInfo) => {
+    setResumeData(prev => ({ ...prev, personalInfo: data }));
+    setStep(2);
+  };
+
+  const handleEducationSubmit = (data: { education: Education[] }) => {
+    setResumeData(prev => ({ ...prev, education: data.education }));
+    setStep(3);
+  };
+
+  const handleExperienceSubmit = (data: { experience: Experience[] }) => {
+    setResumeData(prev => ({ ...prev, experience: data.experience }));
+    setStep(4);
+  };
+
+  const handleCustomSectionsSubmit = (data: { customSections: CustomSection[] }) => {
+    setResumeData(prev => ({ ...prev, customSections: data.customSections }));
+    // Move to next step or generate resume
+    console.log('Resume Data:', resumeData);
+  };
+
+  const handlePersonalInfoChange = (data: Partial<PersonalInfo>) => {
+    setResumeData(prev => ({
+      ...prev,
+      personalInfo: prev.personalInfo 
+        ? { ...prev.personalInfo, ...data }
+        : data as PersonalInfo
+    }));
+  };
+
+  const handleEducationChange = (data: { education: Education[] }) => {
+    setResumeData(prev => ({
+      ...prev,
+      education: data.education
+    }));
+  };
+
+  const handleExperienceChange = (data: { experience: Experience[] }) => {
+    setResumeData(prev => ({
+      ...prev,
+      experience: data.experience
+    }));
+  };
+
+  const handleCustomSectionsChange = (data: { customSections: CustomSection[] }) => {
+    setResumeData(prev => ({
+      ...prev,
+      customSections: data.customSections
+    }));
+  };
+
+  return (
+    <main className="min-h-screen bg-gray-50 py-12 flex">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 flex-1">
+        <div className="space-y-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Resume Builder</h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Create your professional resume in minutes
+            </p>
+          </div>
+
+          <div className="flex justify-center mb-8">
+            <div className="relative flex items-center justify-between w-full max-w-2xl">
+              {/* Progress Bar Background */}
+              <div className="absolute h-1 bg-gray-200 w-[85%] mx-auto right-0 left-0 top-1/3 -translate-y-1/2"></div>
+              {/* Active Progress Bar */}
+              <div
+                className="absolute h-1 bg-indigo-600 transition-all duration-300 top-1/3 right-0 left-0 -translate-y-1/2"
+                style={{ width: `${((step - 1) / 2) * 60}%`, marginLeft: '5%' }}
+              ></div>
+              {/* Step Indicators */}
+              <div className="relative z-10 flex justify-between w-full">
+                {[
+                  { step: 1, label: 'Personal Info' },
+                  { step: 2, label: 'Education' },
+                  { step: 3, label: 'Experience' },
+                  { step: 4, label: 'Custom Sections' }
+                ].map(({ step: stepNumber, label }) => (
+                  <div key={stepNumber} className="flex flex-col items-center">
+                    <button
+                      onClick={() => setStep(stepNumber)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        step === stepNumber
+                          ? 'bg-indigo-600 text-white ring-4 ring-indigo-100'
+                          : stepNumber < step
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-white border-2 border-gray-300'
+                      }`}
+                    >
+                      {stepNumber < step ? (
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <span className="text-sm font-medium">{stepNumber}</span>
+                      )}
+                    </button>
+                    <span className="mt-2 text-sm font-medium text-gray-600">
+                      {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white shadow rounded-lg p-6">
+            {step === 1 && (
+              <div className="space-y-6">
+                <PersonalInfoForm
+                  onSubmit={handlePersonalInfoSubmit}
+                  onChange={handlePersonalInfoChange}
+                  defaultValues={resumeData.personalInfo}
+                >
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Next
+                      <ArrowRightIcon className="ml-2 -mr-1 h-4 w-4" />
+                    </button>
+                  </div>
+                </PersonalInfoForm>
+              </div>
+            )}
+            {step === 2 && (
+              <div className="space-y-6">
+                <EducationForm
+                  onSubmit={handleEducationSubmit}
+                  onChange={handleEducationChange}
+                  defaultValues={resumeData.education ? { education: resumeData.education } : undefined}
+                >
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Next
+                      <ArrowRightIcon className="ml-2 -mr-1 h-4 w-4" />
+                    </button>
+                  </div>
+                </EducationForm>
+              </div>
+            )}
+            {step === 3 && (
+              <div className="space-y-6">
+                <ExperienceForm
+                  onSubmit={handleExperienceSubmit}
+                  onChange={handleExperienceChange}
+                  defaultValues={resumeData.experience ? { experience: resumeData.experience } : undefined}
+                >
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Next
+                      <ArrowRightIcon className="ml-2 -mr-1 h-4 w-4" />
+                    </button>
+                  </div>
+                </ExperienceForm>
+              </div>
+            )}
+            {step === 4 && (
+              <div className="space-y-6">
+                <CustomSectionForm
+                  onSubmit={handleCustomSectionsSubmit}
+                  onChange={handleCustomSectionsChange}
+                  defaultValues={resumeData.customSections ? { customSections: resumeData.customSections } : undefined}
+                >
+                  <div className="flex justify-end space-x-4">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Export Resume
+                      <DocumentArrowDownIcon className="ml-2 -mr-1 h-4 w-4" />
+                    </button>
+                  </div>
+                </CustomSectionForm>
+              </div>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+      <div className="flex-1 px-4">
+        <div className="sticky top-12">
+          <ResumePreview resumeData={resumeData} />
+        </div>
+      </div>
+    </main>
   );
 }
