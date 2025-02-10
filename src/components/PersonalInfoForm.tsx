@@ -97,112 +97,120 @@ export default function PersonalInfoForm({ onSubmit, onChange, defaultValues, ch
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-            First Name
-          </label>
-          <input
-            type="text"
-            {...register('firstName', { required: 'First name is required' })}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.firstName && (
-            <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
-          )}
+      {/* Personal Details Section */}
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+              First Name
+            </label>
+            <input
+              type="text"
+              {...register('firstName', { required: 'First name is required' })}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.firstName && (
+              <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+              Last Name
+            </label>
+            <input
+              type="text"
+              {...register('lastName', { required: 'Last name is required' })}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.lastName && (
+              <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+            )}
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-            Last Name
-          </label>
-          <input
-            type="text"
-            {...register('lastName', { required: 'Last name is required' })}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.lastName && (
-            <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="jobTitle" className="block text-sm font-medium text-gray-700">
-            Job Title
-          </label>
-          <input
-            type="text"
-            {...register('jobTitle', { required: 'Job title is required' })}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.jobTitle && (
-            <p className="mt-1 text-sm text-red-600">{errors.jobTitle.message}</p>
-          )}
-        </div>
+        {/* Professional Info Section */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="sm:col-span-2">
+            <label htmlFor="jobTitle" className="block text-sm font-medium text-gray-700">
+              Job Title
+            </label>
+            <input
+              type="text"
+              {...register('jobTitle', { required: 'Job title is required' })}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.jobTitle && (
+              <p className="mt-1 text-sm text-red-600">{errors.jobTitle.message}</p>
+            )}
+          </div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid email address'
-              }
-            })}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-          )}
-        </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address'
+                }
+              })}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+            )}
+          </div>
 
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-            Phone
-          </label>
-          <input
-            type="tel"
-            {...register('phone', { required: 'Phone number is required' })}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.phone && (
-            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-          )}
-        </div>
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              Phone
+            </label>
+            <input
+              type="tel"
+              {...register('phone', { required: 'Phone number is required' })}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.phone && (
+              <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+            )}
+          </div>
 
-        <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-            Location
-          </label>
-          <input
-            type="text"
-            {...register('location', { required: 'Location is required' })}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.location && (
-            <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
-          )}
-        </div>
+          <div>
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+              Location
+            </label>
+            <input
+              type="text"
+              {...register('location', { required: 'Location is required' })}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.location && (
+              <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
+            )}
+          </div>
 
-        <div>
-          <label htmlFor="website" className="block text-sm font-medium text-gray-700">
-            Website
-          </label>
-          <input
-            type="url"
-            {...register('website')}
-            className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm"
-          />
-          {errors.website && (
-            <p className="mt-1 text-sm text-red-600">{errors.website.message}</p>
-          )}
+          <div>
+            <label htmlFor="website" className="block text-sm font-medium text-gray-700">
+              Website
+            </label>
+            <input
+              type="url"
+              {...register('website')}
+              className="mt-1 block w-full rounded-sm border-2 border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            {errors.website && (
+              <p className="mt-1 text-sm text-red-600">{errors.website.message}</p>
+            )}
+          </div>
         </div>
       </div>
 
-      <div>
+      {/* Summary Section */}
+      <div className="mt-8">
         <label htmlFor="summary" className="block text-sm font-medium text-gray-700">
           Professional Summary
           <button
